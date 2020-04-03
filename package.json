@@ -1,0 +1,27 @@
+{
+    "name": "scraper",
+    "version": "1.0.0",
+    "description": "Scraping any url",
+    "main": "index.js",
+    "repository": "git@github.com:anvode/scraper.git",
+    "author": "Yet Another",
+    "license": "MIT",
+    "scripts": {
+        "start": "node index",
+        "test": "jest",
+        "test:watch": "jest  --verbose --watchAll",
+        "serve": "nodemon index"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.4",
+        "@types/jest": "^25.1.4",
+        "@types/node": "^13.9.8",
+        "babel-eslint": "10.1.0",
+        "eslint": "6.8.0",
+        "eslint-plugin-react": "^7.17.0",
+        "husky": "^4.2.3",
+        "lint-staged": "^10.1.1",
+        "nodemon": "^2.0.2",
+        "jest": "^25.2.6"
+    }
+}
