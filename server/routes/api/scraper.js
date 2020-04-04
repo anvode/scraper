@@ -5,41 +5,31 @@
 
 const express = require('express');
 const router = express.Router();
-
-/**
- * Route serving without url parameter. 
- * Fallback if no validation from client exist
- * @param {string} path - Express path
- * @param {Function} callback - Express middleware.
- */
-router.get('/', async (req, res) => {
-    try {
-        res.status(400).json({
-            message: 'please try /api/scraper/[valid url http(s)://url]'
-        });
-
-    } catch (err) {
-        res.status(400).json({
-            msg: `Something went wrong ${err}`,
-        });
-    }
-});
+const { validUrl } = require('../../../utils');
 
 /**
  * Route serving web scraper api
  * @param {string} path - Express path
  * @param {Function} callback - Express middleware.
  */
-router.get('/:url', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const url = await req.params.url;
+        const url = await req.query.url;
+        const urlIsValid = url ? validUrl(url) : false;
+
+        if (!urlIsValid) {
+            return res.status(400).json({
+                message: 'please try /api/scraper/[valid url http(s)://url]'
+            });
+        }
         res.json({
             msg: `Url ${url}`,
         });
 
     } catch (err) {
         res.status(404).json({
-            msg: 'Url not found',
+            status: 404,
+            msg: 'Url not Reachable',
         });
     }
 });
