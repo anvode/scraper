@@ -6,6 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { validUrl } = require('../../../utils');
+const scraper = require('../../services/scraper/scraper');
 
 /**
  * Route serving web scraper api
@@ -22,9 +23,9 @@ router.get('/', async (req, res) => {
                 message: 'please try /api/scraper/[valid url http(s)://url]'
             });
         }
-        res.json({
-            msg: `Url ${url}`,
-        });
+
+        const responseObject = await scraper(url);
+        res.json(responseObject);
 
     } catch (err) {
         res.status(404).json({
