@@ -21,9 +21,18 @@ npm serve:all
 * supertest -> tests
 * add npm scripts for `test, client, server & both`
 
+`client`
+
+<http://localhost:3000>
+
+`server`
+
+<http://localhost:5050>
+
 ## Api
 
 * create a express server provides a route for the webb scraping api
+* add url validation
 
 ## App
 
