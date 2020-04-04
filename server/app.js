@@ -16,11 +16,11 @@ const scraperRoute = require('./routes/api/scraper');
 app.use('/api/scraper', scraperRoute);
 
 /**
- * Fallback if Route does not exist
+ * Fallback if Api Route does not exist
  * @param {string} path - Express paths
  * @param {Function} callback - Express middleware.
  */
-app.get('*', (req, res) => {
+app.get('/api', (req, res) => {
     res.json({
         message: 'Wrong Endpoint'
     });
