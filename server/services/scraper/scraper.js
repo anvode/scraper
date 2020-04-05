@@ -5,7 +5,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { performance } = require('perf_hooks');
-const { getHtmlVersion } = require('./utils');
+const { getHtmlVersion, getHeadings } = require('./utils');
 
 /**
  * Main function which returns the expected object
@@ -65,6 +65,11 @@ async function scraper(url) {
             value: $('title').text()
         });
 
+        const headings = getHeadings($('h1, h2, h3, h4, h5, h6'));
+        responseObject.results.push({
+            name: 'Number of headings and their level',
+            value: headings
+        });
         return responseObject;
 
     } catch (err) {

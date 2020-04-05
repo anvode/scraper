@@ -1,8 +1,9 @@
 
 const fetchMock = require('fetch-mock-jest');
+const cheerio = require('cheerio');
 const scraper = require('../scraper');
-const { getHtmlVersion } = require('../utils');
-const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1 } = require('../MockData');
+const { getHtmlVersion, getHeadings } = require('../utils');
+const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1, mockHeadingHtml, mockNoHeadingHtml } = require('../MockData');
 
 describe('scraper js', () => {
 
@@ -38,6 +39,18 @@ describe('scraper js', () => {
     it('get DOCTYPE XHTML1', async () => {
         const version = getHtmlVersion(mockHtml1);
         expect(version).toBe('1.0');
+    });
+
+    it('Headings exists', async () => {
+        const $ = cheerio.load(mockHeadingHtml);
+        const headings = getHeadings($('h1, h2, h3, h4, h5, h6'));
+        expect(headings).toEqual([{'name': 'h1', 'value': 3}, {'name': 'h4', 'value': 1}, {'name': 'h3', 'value': 1}, {'name': 'h5', 'value': 1}]);
+    });
+
+    it('No Headings', async () => {
+        const $ = cheerio.load(mockNoHeadingHtml);
+        const headings = getHeadings($('h1, h2, h3, h4, h5, h6'));
+        expect(headings).toEqual('No Headings Found');
     });
    
 });

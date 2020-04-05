@@ -1,7 +1,9 @@
 /** 
  * Helper Functions for Web Scraper 
  * @module scraper utils
+ * @require cheerio 
  */
+const $ = require('cheerio');
 
 /**
  * Get the right HTML version
@@ -22,6 +24,26 @@ const getHtmlVersion = (root) => {
     return matchVersion[0];
 };
 
+const getHeadings = (elements) => {
+    if ($(elements).length === 0) {
+        return 'No Headings Found';
+    }
+    const headings = {};
+    $(elements).each((i, element) => {
+        if (!headings[element.name]) {
+            headings[element.name] = 1;
+        } else {
+            headings[element.name] += 1;
+        }
+    });
+    
+    return Object.keys(headings).map(key => ({
+        name: key,
+        value: headings[key]
+    }));
+};
+
 module.exports = {
-    getHtmlVersion
+    getHtmlVersion,
+    getHeadings
 };
