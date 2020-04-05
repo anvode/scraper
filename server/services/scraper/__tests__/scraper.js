@@ -1,6 +1,8 @@
 
 const fetchMock = require('fetch-mock-jest');
 const scraper = require('../scraper');
+const { getHtmlVersion } = require('../utils');
+const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1 } = require('../MockData');
 
 describe('scraper js', () => {
 
@@ -19,4 +21,25 @@ describe('scraper js', () => {
         expect(statusText).toBe('Not Found');
         fetchMock.restore();
     });
+    
+    it('no DOCTYPE Defined', async () => {
+        const version = getHtmlVersion(mockHtmlNoDoctype);
+        expect(version).toBe('Not Defined');
+    });
+
+    it('get DOCTYPE HTML5', async () => {
+        const version = getHtmlVersion(mockHtml5);
+        expect(version).toBe('5');
+    });
+
+    it('get DOCTYPE HTML4', async () => {
+        const version = getHtmlVersion(mockHtml4);
+        expect(version).toBe('4.01');
+    });
+
+    it('get DOCTYPE XHTML1', async () => {
+        const version = getHtmlVersion(mockHtml1);
+        expect(version).toBe('1.0');
+    });
+   
 });
