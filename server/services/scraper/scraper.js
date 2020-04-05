@@ -7,6 +7,17 @@ const cheerio = require('cheerio');
 const { performance } = require('perf_hooks');
 const { getHtmlVersion, getHeadings } = require('./utils');
 
+const errorObject = [ 
+    {
+        name: 'status',
+        value: 200
+    },
+    {
+        name: 'statusText',
+        value: 'OK'
+    }
+];
+
 /**
  * Main function which returns the expected object
  * 
@@ -20,17 +31,7 @@ async function scraper(url) {
      */
     const responseObject = {
         status: true,
-        results: [
-            {
-                name: 'status',
-                value: 200
-            },
-            {
-                name: 'statusText',
-                value: 'OK'
-            }
-
-        ]
+        results: []
     };
 
     try {
@@ -42,10 +43,11 @@ async function scraper(url) {
         const endTime = Math.floor(performance.now());
 
         responseObject.status = response.ok;
-        responseObject.results[0].value = response.status;
-        responseObject.results[1].value = response.statusText;
         
         if (!response.ok) {
+            errorObject[0].value = response.status;
+            errorObject[1].value = response.statusText;
+            responseObject.results.push(...errorObject);
             return responseObject;
         }
         
@@ -76,8 +78,9 @@ async function scraper(url) {
         // eslint-disable-next-line no-console
         console.error(err);
         responseObject.status = false;
-        responseObject.results[0].value = 404;
-        responseObject.results[1].value = 'Not Found';
+        errorObject[0].value = 404;
+        errorObject[1].value = 'Not Found';
+        responseObject.results.push(...errorObject);
 
         return responseObject; 
 
