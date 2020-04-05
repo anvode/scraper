@@ -40,6 +40,7 @@ async function scraper(url) {
         
         responseObject.loadingTime = `${(endTime - startTime) / 1000}s`;
         responseObject.htmlVersion = getHtmlVersion($.root()[0].children);
+        responseObject.title = $('title').text();
 
         return responseObject;
 
