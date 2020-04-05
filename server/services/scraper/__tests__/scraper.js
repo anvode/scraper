@@ -8,17 +8,15 @@ describe('scraper js', () => {
 
     it('response is ok', async () => {
         fetchMock.mock('http://example.com', 200);
-        const {status, statusText} = await scraper('http://example.com');
-        expect(status).toBe(200);
-        expect(statusText).toBe('OK');
+        const {status} = await scraper('http://example.com');
+        expect(status).toBe(true);
         fetchMock.restore();
     });
 
     it('response is 404', async () => {
         fetchMock.mock('http://example.com/404', 404);
-        const {status, statusText} = await scraper('http://example.com/404');
-        expect(status).toBe(404);
-        expect(statusText).toBe('Not Found');
+        const {status} = await scraper('http://example.com/404');
+        expect(status).toBe(false);
         fetchMock.restore();
     });
     

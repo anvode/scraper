@@ -19,8 +19,18 @@ async function scraper(url) {
      * @type {object}
      */
     const responseObject = {
-        status: 200,
-        statusText: 'OK'
+        status: true,
+        results: [
+            {
+                name: 'status',
+                value: 200
+            },
+            {
+                name: 'statusText',
+                value: 'OK'
+            }
+
+        ]
     };
 
     try {
@@ -31,24 +41,39 @@ async function scraper(url) {
         const $ = await cheerio.load(html);
         const endTime = Math.floor(performance.now());
 
-        responseObject.status = response.status;
-        responseObject.statusText = response.statusText;
+        responseObject.status = response.ok;
+        responseObject.results[0].value = response.status;
+        responseObject.results[1].value = response.statusText;
         
         if (!response.ok) {
             return responseObject;
         }
         
-        responseObject.loadingTime = `${(endTime - startTime) / 1000}s`;
-        responseObject.htmlVersion = getHtmlVersion($.root()[0].children);
-        responseObject.title = $('title').text();
+        responseObject.results.push({
+            name: 'Load Time',
+            value: `${(endTime - startTime) / 1000}s`
+        });
+
+        const htmlVersion = getHtmlVersion($.root()[0].children);
+        responseObject.results.push({
+            name: 'HTML Version',
+            value: htmlVersion
+        });
+
+        responseObject.results.push({
+            name: 'Title',
+            value: $('title').text()
+        });
 
         return responseObject;
 
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);
-        responseObject.status = 404;
-        responseObject.statusText = 'Not Found';
+        responseObject.status = false;
+        responseObject.results[0].value = 404;
+        responseObject.results[1].value = 'Not Found';
+
         return responseObject; 
 
     }
