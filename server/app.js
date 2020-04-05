@@ -5,6 +5,7 @@
  */
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const scraperRoute = require('./routes/api/scraper');
 
@@ -13,7 +14,7 @@ const scraperRoute = require('./routes/api/scraper');
  * @param {string} path - Express path
  * @param {Object} routes - Express middleware.
  */
-app.use('/api/scraper', scraperRoute);
+app.use('/api/scraper', cors(), scraperRoute);
 
 /**
  * Fallback if Api Route does not exist
