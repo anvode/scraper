@@ -2,8 +2,8 @@
 const fetchMock = require('fetch-mock-jest');
 const cheerio = require('cheerio');
 const scraper = require('../scraper');
-const { getHtmlVersion, getHeadings } = require('../utils');
-const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1, mockHeadingHtml, mockNoHeadingHtml } = require('../MockData');
+const { getHtmlVersion, getHeadings, getImages } = require('../utils');
+const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1, mockHeadingHtml, mockNoHeadingHtml, mockImageHtml, mockNoImageHtml } = require('../MockData');
 
 describe('scraper js', () => {
 
@@ -51,6 +51,12 @@ describe('scraper js', () => {
         const $ = cheerio.load(mockNoHeadingHtml);
         const headings = getHeadings($('h1, h2, h3, h4, h5, h6'));
         expect(headings).toEqual('No Headings Found');
+    });
+
+    it('No Images', async () => {
+        const $ = cheerio.load(mockNoImageHtml);
+        const headings = await getImages($('img'));
+        expect(headings).toEqual('No Images Found');
     });
    
 });

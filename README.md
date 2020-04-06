@@ -38,6 +38,8 @@ run both server
 * create a express server provides a route for the webb scraping api
 * add url validation
 * choose node-fetch for requests. Because of similar client fetch syntax
+* add cors module to call with the client domain
+* there are several to structure the api. My decision was to have less work at client side
 
 ## App
 

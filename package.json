@@ -45,6 +45,8 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "fetch-mock-jest": "^1.2.4",
-        "node-fetch": "^2.6.0"
+        "image-size": "^0.8.3",
+        "node-fetch": "^2.6.0",
+        "probe-image-size": "^5.0.0"
     }
 }

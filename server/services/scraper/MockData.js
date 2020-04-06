@@ -45,11 +45,18 @@ const mockNoHeadingHtml = `
     </div>
 `;
 
+const mockNoImageHtml = `
+    <div>
+        <p>No Images Found</p>
+    </div>
+`;
+
 module.exports = {
     mockHtml5,
     mockHtmlNoDoctype,
     mockHtml4,
     mockHtml1,
     mockHeadingHtml,
-    mockNoHeadingHtml
+    mockNoHeadingHtml,
+    mockNoImageHtml
 };

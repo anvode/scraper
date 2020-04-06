@@ -5,7 +5,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { performance } = require('perf_hooks');
-const { getHtmlVersion, getHeadings } = require('./utils');
+const { getHtmlVersion, getHeadings, getImages } = require('./utils');
 
 const errorObject = [ 
     {
@@ -50,11 +50,6 @@ async function scraper(url) {
             responseObject.results.push(...errorObject);
             return responseObject;
         }
-        
-        responseObject.results.push({
-            name: 'Load Time',
-            value: `${(endTime - startTime) / 1000}s`
-        });
 
         const htmlVersion = getHtmlVersion($.root()[0].children);
         responseObject.results.push({
@@ -71,6 +66,17 @@ async function scraper(url) {
         responseObject.results.push({
             name: 'Number of headings and their level',
             value: headings
+        });
+
+        const images = await getImages($('img'));
+        responseObject.results.push({
+            name: 'The number of pictures and the largest one',
+            value: images
+        });
+        
+        responseObject.results.push({
+            name: 'Load Time',
+            value: `${(endTime - startTime) / 1000}s`
         });
         return responseObject;
 
