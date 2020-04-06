@@ -51,6 +51,34 @@ const mockNoImageHtml = `
     </div>
 `;
 
+const mockLinksHtml = `
+    <div>   
+        <a href="http://localhost:3000/about">About</a>
+        <a href="http://localhost:3000/search?term=fsdfsd">Search</a>
+        <div>
+        <a href="http://twitter.com/cbracco">@other</a>
+        <a href="#top">top</a>
+        </div>
+        <p>
+            <a href="http://localhost:3000"><span>Home</span></a>
+        </p>
+        <footer role="contentinfo">
+            <p>
+                Made by <a href="http://twitter.com/cbracco">@cbracco</a>.
+                Code on
+                <a href="http://github.com/cbracco/html5-test-page">GitHub</a>.
+            </p>
+        </footer>
+        <a href="http://localhost:3000">Home</a>
+    </div>
+`;
+
+const mockNoLinksHtml = `
+    <div>
+        <p>No Links Found</p>
+    </div>
+`;
+
 module.exports = {
     mockHtml5,
     mockHtmlNoDoctype,
@@ -58,5 +86,7 @@ module.exports = {
     mockHtml1,
     mockHeadingHtml,
     mockNoHeadingHtml,
-    mockNoImageHtml
+    mockNoImageHtml,
+    mockLinksHtml,
+    mockNoLinksHtml
 };

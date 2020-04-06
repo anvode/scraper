@@ -2,8 +2,8 @@
 const fetchMock = require('fetch-mock-jest');
 const cheerio = require('cheerio');
 const scraper = require('../scraper');
-const { getHtmlVersion, getHeadings, getImages } = require('../utils');
-const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1, mockHeadingHtml, mockNoHeadingHtml, mockImageHtml, mockNoImageHtml } = require('../MockData');
+const { getHtmlVersion, getHeadings, getImages, getLinks } = require('../utils');
+const { mockHtml5, mockHtmlNoDoctype, mockHtml4, mockHtml1, mockHeadingHtml, mockNoHeadingHtml, mockNoImageHtml, mockLinksHtml, mockNoLinksHtml } = require('../MockData');
 
 describe('scraper js', () => {
 
@@ -57,6 +57,18 @@ describe('scraper js', () => {
         const $ = cheerio.load(mockNoImageHtml);
         const headings = await getImages($('img'));
         expect(headings).toEqual('No Images Found');
+    });
+
+    it('Links exists', async () => {
+        const $ = cheerio.load(mockLinksHtml);
+        const headings = getLinks($('a'), 'http://localhost:3000/contact');
+        expect(headings).toEqual({'externalLinks': [{'name': 'http://twitter.com/cbracco', 'value': 2}, {'name': 'http://github.com/cbracco/html5-test-page', 'value': 1}], 'internalLinks': [{'name': 'http://localhost:3000/about', 'value': 1}, {'name': 'http://localhost:3000/search?term=fsdfsd', 'value': 1}, {'name': 'http://localhost:3000', 'value': 2}]});
+    });
+
+    it('No Links', async () => {
+        const $ = cheerio.load(mockNoLinksHtml);
+        const headings = getLinks($('a'), 'http://localhost:3000');
+        expect(headings).toEqual({'externalLinks': 'No Links Found', 'internalLinks': 'No Links Found'});
     });
    
 });

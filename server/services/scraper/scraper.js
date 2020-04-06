@@ -5,7 +5,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { performance } = require('perf_hooks');
-const { getHtmlVersion, getHeadings, getImages } = require('./utils');
+const { getHtmlVersion, getHeadings, getImages, getLinks } = require('./utils');
 
 const errorObject = [ 
     {
@@ -68,10 +68,21 @@ async function scraper(url) {
             value: headings
         });
 
-        const images = await getImages($('img'));
+        const images = await getImages($('img'), url);
         responseObject.results.push({
             name: 'The number of pictures and the largest one',
             value: images
+        });
+
+        const {internalLinks, externalLinks} = getLinks($('a'), url);
+        responseObject.results.push({
+            name: 'Internal links and their count',
+            value: internalLinks
+        });
+
+        responseObject.results.push({
+            name: 'External links and their count',
+            value: externalLinks
         });
         
         responseObject.results.push({
@@ -83,10 +94,11 @@ async function scraper(url) {
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);
+
         responseObject.status = false;
-        errorObject[0].value = 404;
-        errorObject[1].value = 'Not Found';
-        responseObject.results.push(...errorObject);
+        errorObject[0].value = err.name === 'TypeError' ? 500 : 404;
+        errorObject[1].value = err.name === 'TypeError' ? 'Oops Something failed!' : 'Not Found';
+        responseObject.results = errorObject;
 
         return responseObject; 
 

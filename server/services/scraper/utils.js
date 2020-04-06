@@ -1,11 +1,13 @@
 /** 
  * Helper Functions for Web Scraper 
  * @module scraper utils
- * @require cheerio, image-size, node-fetch
+ * @require cheerio, image-size, node-fetch, url
  */
 const $ = require('cheerio');
 const sizeOf = require('image-size');
 const fetch = require('node-fetch');
+const url = require('url');
+const { validUrl } = require('../../../utils');
 
 /**
  * Return the right HTML version
@@ -52,11 +54,12 @@ const getHeadings = (elements) => {
 };
 
 /**
- * Returns all Headings if exist otherwise a string
+ * Returns all Images if exist otherwise a string
  * @param {Array} elements
+ * @param {String} scrapeUrl
  * @returns {Promise}
  */
-const getImages = async (elements) => {
+const getImages = async (elements, scrapeUrl) => {
     const $elements = $(elements); 
 
     if ($elements.length === 0) {
@@ -74,8 +77,10 @@ const getImages = async (elements) => {
             imageLength--;
             return;
         }
+
+        const absoluteUrl = absolutePath(imgUrl, scrapeUrl);
         images.push({
-            url: imgUrl
+            url: absoluteUrl
         });
     });
 
@@ -103,8 +108,73 @@ const getImages = async (elements) => {
     ];
 };
 
+/**
+ * Returns all Links if exist otherwise a string
+ * @param {Array} elements
+ * @param {String} scrapeUrl
+ * @returns {(string|Object)}
+ */
+const getLinks = (elements, scrapeUrl) => {
+    const $elements = $(elements); 
+    let internalLinks = null;
+    let externalLinks = null;
+    if ($elements.length === 0) {
+        return {
+            internalLinks: 'No Links Found',
+            externalLinks: 'No Links Found'
+        };
+    }
+
+    const internalLinksObj = {};
+    const externalLinksObj = {};
+    $elements.each((i, element) => {
+        const $element = $(element);
+        const linkUrl = $element.attr('href');
+
+        if (!linkUrl || (/^#/).test(linkUrl)) {
+            return;
+        }
+
+        const scrapeUrlBase = url.parse(scrapeUrl).host;
+        const linkUrlBase = url.parse(linkUrl).host;
+
+        if (scrapeUrlBase === linkUrlBase ) {
+            internalLinksObj[linkUrl] = internalLinksObj[linkUrl] ? ++internalLinksObj[linkUrl] : 1;
+        } else {
+            externalLinksObj[linkUrl] = externalLinksObj[linkUrl] ? ++externalLinksObj[linkUrl] : 1;
+        }
+        
+    });
+    
+    internalLinks = Object.keys(internalLinksObj).length > 0 ? Object.keys(internalLinksObj).map(key => ({
+        name: key,
+        value: internalLinksObj[key]
+    })) : 'No Links Found';
+
+    externalLinks = Object.keys(externalLinksObj).length > 0 ? Object.keys(externalLinksObj).map(key => ({
+        name: key,
+        value: externalLinksObj[key]
+    })) : 'No Links Found';
+    return {
+        internalLinks,
+        externalLinks
+    };
+};
+
+/**
+ * Check if url have absolute path
+ * @param {string} str - url to check
+ * @param {string} scrapeUrl - url which is scraping
+ */
+const absolutePath = (str, scrapeUrl) => {
+    if (validUrl(str)) return str;
+    const {protocol, host} = url.parse(scrapeUrl);
+    return `${protocol}//${host}${str}`;
+};
+
 module.exports = {
     getHtmlVersion,
     getHeadings,
-    getImages
+    getImages,
+    getLinks
 };
