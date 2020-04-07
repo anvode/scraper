@@ -43,4 +43,9 @@ run both server
 
 ## App
 
+* install node-sass to use sass precompiler
+* BEM syntax css classes ans css variables
+* to handle state decide for props. Because of less complexity
+* url validation to prevent unnecessary request
+
 ## Explain
