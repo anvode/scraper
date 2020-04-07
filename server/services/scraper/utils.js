@@ -78,7 +78,6 @@ const getImages = async (elements, scrapeUrl) => {
             return;
         }
         const absoluteUrl = absolutePath(imgUrl, scrapeUrl);
-        console.log('absoluteUrl', absoluteUrl);
 
         images.push({
             url: absoluteUrl
