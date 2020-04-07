@@ -1,0 +1,41 @@
+.scraper-results {
+    &__title {
+        text-align: center;    
+    }
+
+    &__item {
+        display: flex;
+
+        &:nth-child(2n) {
+            background-color: #fefefe;
+        }
+    }
+
+    &__name {
+        flex: 1 0 auto;
+        max-width: 50%;
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--color-gray);
+        border-right: 1px solid var(--color-gray);
+        word-break: break-all;
+    }
+
+    &--header {
+        font-weight: bold;
+        border-right: none;
+        width: 100%;
+        max-width: initial;
+    }
+
+    &__value {
+        flex: 1 0 auto;
+        max-width: 50%;
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--color-gray);
+        word-break: break-all;
+    }
+
+    &--bold {
+        font-weight: bold;
+    }
+}
