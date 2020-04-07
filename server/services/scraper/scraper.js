@@ -1,5 +1,5 @@
 /** Fetch url and return a json object with expected properties
- * @module service/scraper
+ * @module services/scraper
  * @requires node-fetch, cheerio
  */
 const fetch = require('node-fetch');
