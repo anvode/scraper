@@ -31,7 +31,7 @@ run both server
 
 `server`
 
-<http://localhost:5050>
+<http://localhost:5050/api/scraper>
 
 ## Api
 
@@ -45,7 +45,39 @@ run both server
 
 * install node-sass to use sass precompiler
 * BEM syntax css classes ans css variables
-* to handle state decide for props. Because of less complexity
+* state to child components handle with props. Because of less complexity of the project
 * url validation to prevent unnecessary request
 
-## Explain
+## Crawl SPA
+
+* it also has to be execute the javascript and render the html. Can possible with Headless Chrome Browser
+* puppeteer or selenium
+
+## Production-ready
+
+* client domain will be required
+* serve client over express server
+* accessibility, browser support
+* docker or pm2 to start the server
+* CI/CD
+* Testing, Staging and Production Environments
+
+## Secure
+
+* protect the routes e.g. token based authentication
+* data sanitization fro user input
+* limit the body payload with express js body-parser
+* .env for environment variables with dotenv
+
+## Scalable
+
+* file structure (models, routes, controllers, services, configs)
+* code reusability
+* Load Balancer, pm2 cluster mode
+
+## Faster
+
+* Code Splitting
+* Lazyload Images
+* Server Side Rendering
+* Memoisation - store the request in a Object(url|Modified Date)
