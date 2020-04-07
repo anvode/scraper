@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
         if (!urlIsValid) {
             return res.status(400).json({
-                message: 'please try /api/scraper/[valid url http(s)://url]'
+                message: 'please try /api/scraper?url=[valid url http(s)://url]'
             });
         }
 
