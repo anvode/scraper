@@ -11,4 +11,4 @@ export async function fetchData(dispatch, url) {
     } catch (err) {
         dispatch(setScraperFetchError(err));
     }
-}
+};

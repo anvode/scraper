@@ -17,7 +17,7 @@ const ScraperResultsList = ({results}) => {
                 }
             })}
         </div>
-    )
-}
+    );
+};
 
 export default ScraperResultsList;

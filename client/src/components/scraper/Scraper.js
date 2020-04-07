@@ -4,7 +4,7 @@ import { scraperReducer } from './scraper.reducer';
 import ScraperForm from '../scraper-form/ScraperForm';
 import ScraperResults from '../scraper-results/ScraperResults';
 
-const initialState = {
+export const initialState = {
     status: true,
     results: [],
     scraperFetchLoading: false,
@@ -24,7 +24,7 @@ const Scraper = props => {
                 <ScraperResults state={state}></ScraperResults>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Scraper
+export default Scraper;

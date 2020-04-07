@@ -4,8 +4,6 @@ import Scraper from './components/scraper/Scraper';
 
 
 function App() {
-  
-
     return (
         <div className="main">
             <Scraper></Scraper>

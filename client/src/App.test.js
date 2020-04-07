@@ -1,9 +1,19 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+afterEach(cleanup);
+
+describe('App', () => {
+    test('renders title', () => {
+        const { getByText } = render(<App />);
+        const title = getByText(/Web Scraper/i);
+        expect(title).toBeInTheDocument();
+    });
+
+    it("snapshot App", () => {
+        const { asFragment } = render(<App />);
+        expect(asFragment()).toMatchSnapshot();
+    });
+})
+

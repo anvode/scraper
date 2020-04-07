@@ -10,8 +10,6 @@ export const scraperReducer = (state, action) => {
     switch (action.type) {
 
         case SCRAPER_FETCH_URL: {
-            console.log('state, action', state, action)
-
             return {
                 ...state,
                 scraperFetchLoading: false,
@@ -36,5 +34,5 @@ export const scraperReducer = (state, action) => {
 
         default:
             return state;
-    }
+    };
 };

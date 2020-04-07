@@ -5,7 +5,7 @@ import ScraperResultsList from './ScraperResultsList';
 
 const ScraperResults = ({ state }) => {
 
-    if (state.error) {
+    if (state.scraperFetchError) {
         return <div className="scraper-results">
             {state.scraperFetchError}
         </div>;
@@ -26,7 +26,7 @@ const ScraperResults = ({ state }) => {
                 </>
             }
         </div>
-    )
-}
+    );
+};
 
-export default ScraperResults
+export default ScraperResults;
