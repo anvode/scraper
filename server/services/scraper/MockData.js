@@ -53,14 +53,14 @@ const mockNoImageHtml = `
 
 const mockLinksHtml = `
     <div>   
-        <a href="http://localhost:3000/about">About</a>
-        <a href="http://localhost:3000/search?term=fsdfsd">Search</a>
+        <a href="http://example.com/about">About</a>
+        <a href="http://example.com/search?term=fsdfsd">Search</a>
         <div>
         <a href="http://twitter.com/cbracco">@other</a>
         <a href="#top">top</a>
         </div>
         <p>
-            <a href="http://localhost:3000"><span>Home</span></a>
+            <a href="http://example.com"><span>Home</span></a>
         </p>
         <footer role="contentinfo">
             <p>
@@ -69,7 +69,7 @@ const mockLinksHtml = `
                 <a href="http://github.com/cbracco/html5-test-page">GitHub</a>.
             </p>
         </footer>
-        <a href="http://localhost:3000">Home</a>
+        <a href="http://example.com">Home</a>
     </div>
 `;
 

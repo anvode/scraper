@@ -77,8 +77,9 @@ const getImages = async (elements, scrapeUrl) => {
             imageLength--;
             return;
         }
-
         const absoluteUrl = absolutePath(imgUrl, scrapeUrl);
+        console.log('absoluteUrl', absoluteUrl);
+
         images.push({
             url: absoluteUrl
         });
@@ -131,17 +132,18 @@ const getLinks = (elements, scrapeUrl) => {
         const $element = $(element);
         const linkUrl = $element.attr('href');
 
-        if (!linkUrl || (/^#/).test(linkUrl)) {
+        if (!linkUrl || (/^(#|javascript|data|chrome|mailto|tel|sms|callto|mms|skype)/).test(linkUrl)) {
             return;
         }
+        const absoluteUrl = absolutePath(linkUrl, scrapeUrl);
 
         const scrapeUrlBase = url.parse(scrapeUrl).host;
-        const linkUrlBase = url.parse(linkUrl).host;
+        const linkUrlBase = url.parse(absoluteUrl).host;
 
         if (scrapeUrlBase === linkUrlBase ) {
-            internalLinksObj[linkUrl] = internalLinksObj[linkUrl] ? ++internalLinksObj[linkUrl] : 1;
+            internalLinksObj[absoluteUrl] = internalLinksObj[absoluteUrl] ? ++internalLinksObj[absoluteUrl] : 1;
         } else {
-            externalLinksObj[linkUrl] = externalLinksObj[linkUrl] ? ++externalLinksObj[linkUrl] : 1;
+            externalLinksObj[absoluteUrl] = externalLinksObj[absoluteUrl] ? ++externalLinksObj[absoluteUrl] : 1;
         }
         
     });
@@ -168,8 +170,11 @@ const getLinks = (elements, scrapeUrl) => {
  */
 const absolutePath = (str, scrapeUrl) => {
     if (validUrl(str)) return str;
+    
     const {protocol, host} = url.parse(scrapeUrl);
-    return `${protocol}//${host}${str}`;
+    const protocolNotExist = (/^(\/\/)/).test(str);
+
+    return `${protocol}${protocolNotExist ? '' : `//${host}`}${str}`;
 };
 
 module.exports = {

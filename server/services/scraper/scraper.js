@@ -40,7 +40,6 @@ async function scraper(url) {
         const response = await fetch(url);
         const html = await response.text();
         const $ = await cheerio.load(html);
-        const endTime = Math.floor(performance.now());
 
         responseObject.status = response.ok;
         
@@ -85,6 +84,7 @@ async function scraper(url) {
             value: externalLinks
         });
         
+        const endTime = Math.floor(performance.now());
         responseObject.results.push({
             name: 'Load Time',
             value: `${(endTime - startTime) / 1000}s`
@@ -97,7 +97,7 @@ async function scraper(url) {
 
         responseObject.status = false;
         errorObject[0].value = err.name === 'TypeError' ? 500 : 404;
-        errorObject[1].value = err.name === 'TypeError' ? 'Oops Something failed!' : 'Not Found';
+        errorObject[1].value = err.name === 'TypeError' ? err.message : 'Not Found';
         responseObject.results = errorObject;
 
         return responseObject; 
