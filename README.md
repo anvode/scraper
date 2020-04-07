@@ -81,3 +81,7 @@ run both server
 * Lazyload Images
 * Server Side Rendering
 * Memoisation - store the request in a Object(url|Modified Date)
+
+## JSDoc
+
+[https://github.com/anvode/scraper/blob/master/api.md](https://github.com/anvode/scraper/blob/master/api.md)
